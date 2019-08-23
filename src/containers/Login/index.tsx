@@ -2,9 +2,9 @@ import React, { ReactHTML } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
-import { Form, Icon, Input, Button, Carousel } from 'antd';
+import { Form, Icon, Input, Button, Carousel, message, notification } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import { fetchBackgroundImage } from '../../actions';
+import { fetchBackgroundImage, signIn } from '../../actions';
 import { LoginState } from '../../reducers/login'
 import './index.less'
 
@@ -15,7 +15,8 @@ interface IProps extends FormComponentProps {
   loginInfo: LoginState
   children: ReactHTML
   location: ILocation
-  fetchBackgroundImage: (payload?: object) => void
+  fetchBackgroundImage: (payload?: object) => void,
+  signIn: (payload: object) => Promise<any>
 }
 
 class Login extends React.Component<IProps> {
@@ -24,13 +25,27 @@ class Login extends React.Component<IProps> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.props.signIn(values).then(res=>{
+          if(res.payload.data.success){
+            message.success(res.payload.data.message);
+            try {
+              const token = this.props.loginInfo.token;
+              localStorage.setItem('token', token);
+            } catch (error) {
+              notification.open({
+                message: '提示',
+                description: '请关闭浏览器隐身模式'
+              });
+            }
+          }
+        })
       }
     });
   };
   componentDidMount() {
     console.log(this.props.loginInfo)
     this.props.fetchBackgroundImage({
-      count: 6
+      count: 3
     })
   }
 
@@ -54,10 +69,10 @@ class Login extends React.Component<IProps> {
         </Carousel>
         <div className="content">
           <div className="form">
-            {/* <h2 className="title">blog后台管理系统</h2> */}
+            <h2 className="title">blog后台管理系统</h2>
             <Form onSubmit={this.handleSubmit} className="login-form">
               <Form.Item className="form-ipt">
-                {getFieldDecorator('username', {
+                {getFieldDecorator('name', {
                   rules: [{ required: true, message: '请输入用户名!' }],
                 })(
                   <Input
@@ -97,7 +112,8 @@ const mapStateToProps = ({ login }: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchBackgroundImage: bindActionCreators(fetchBackgroundImage, dispatch)
+    fetchBackgroundImage: bindActionCreators(fetchBackgroundImage, dispatch),
+    signIn: bindActionCreators(signIn, dispatch)
   }
 }
 const HOCLogin: any = connect(

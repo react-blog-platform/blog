@@ -31,13 +31,26 @@ interface signUpAction {
 interface signUpSuccessAction {
   type: ActionTypes.SIGN_UP_SUCCESS;
   payload: {
-    request: AxiosResponse
+    data: AxiosResponse
+  };
+}
+
+interface signInAction {
+  type: ActionTypes.SIGN_IN;
+  payload: {
+    request: AxiosRequestConfig
+  };
+}
+
+interface signInSuccessAction {
+  type: ActionTypes.SIGN_IN_SUCCESS;
+  payload: {
+    data: AxiosResponse
   };
 }
 
 export type UserAction = UpdateUserAction;
-export type LoginAction = fetchBackgroundImageAction | fetchBackgroundImageSuccessAction
-export type SignUpAction = signUpAction|signUpSuccessAction;
+export type LoginAction = fetchBackgroundImageAction | fetchBackgroundImageSuccessAction |signUpAction|signUpSuccessAction|signInAction|signInSuccessAction;
 
 
 export function upateUser(user: object): UpdateUserAction {
@@ -73,3 +86,18 @@ export function signUp(payload: AxiosRequestConfig):signUpAction {
     }
   }
 }
+
+// 登录
+export function signIn(payload: AxiosRequestConfig):signInAction {
+  return {
+    type: ActionTypes.SIGN_IN,
+    payload: {
+      request: {
+        url: `user/login`,
+        method: 'post',
+        data: payload
+      }
+    }
+  }
+}
+

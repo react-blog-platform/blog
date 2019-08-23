@@ -20,10 +20,10 @@ export const middlewareConfig = {
       },
     }],
     response: [{
-      success: function ({getState, dispatch, getSourceAction}:any, req:any) {
-        console.log(req,getSourceAction,getState, dispatch); //contains information about request object
+      success: function (_:any, req:any) {
+        console.log(req); //contains information about request object
         if(req.data && req.data.code!==200){
-          console.log(getSourceAction())
+          message.error(req.data.message)
         }
         return req
       },
