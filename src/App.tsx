@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import App from './components/app'
+import { REQUEST_ARTICLES, REQUEST_INFO } from './constants'
+interface IInfoInterface {
+  info: any
+}
+const mapStateToProps = ({ info }: IInfoInterface) => {
+  return { info }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    actions: dispatch({ type: REQUEST_INFO }),
+    fetchArticle: (payload: any) => {
+      dispatch({
+        payload,
+        type: REQUEST_ARTICLES
+      })
+    }
+  }
+}
+const AppMap: any = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+export default withRouter(AppMap)
