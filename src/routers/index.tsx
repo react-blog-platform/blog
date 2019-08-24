@@ -19,7 +19,7 @@ const RouterList: Array<router> = [
     path: "/post/:postId"
   },
   {
-    component: () => import("../containers/Submit"),
+    component: () => import("../containers/Management"),
     path: "/submit"
   }
 ]

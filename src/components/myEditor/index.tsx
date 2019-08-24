@@ -1,26 +1,37 @@
-import * as React from "react"
-import * as ReactDOM from "react-dom"
-import { Editor, EditorState } from "draft-js"
+/**
+ * @file Editor with link
+ * @author Marx
+ */
 
-interface MyEditorProps {}
-
-class MyEditor extends React.Component<MyEditorProps, any> {
-  constructor(props: MyEditorProps) {
+import "./index.less"
+import React, { Component } from "react"
+import { Modal, Button, Input } from "antd"
+// import { MarkdownEditor } from "react-markdown-editor"
+import MarkdownEditor from "@uiw/react-markdown-editor"
+interface IProps {}
+interface IState {
+  markdown: string
+}
+class MyEditor extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props)
+    this.state = {
+      markdown: ""
+    }
+  }
+  updateMarkdown = (editor: any, data: any, value: any) => {
+    this.setState({ markdown: value })
+  }
 
-    this.state = { editorState: EditorState.createEmpty() }
-  }
-  handleChange(e: EditorState) {
-    this.setState({ editorState: e })
-  }
   render() {
     return (
-      <Editor
-        editorState={this.state.editorState}
-        onChange={e => this.handleChange(e)}
+      <MarkdownEditor
+        value={this.state.markdown}
+        onChange={this.updateMarkdown}
+        height={400}
       />
     )
+    // return <MarkdownEditor initialContent="Test" iconsSet="font-awesome" />
   }
 }
-
 export { MyEditor }
