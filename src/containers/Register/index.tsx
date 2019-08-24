@@ -2,7 +2,7 @@ import React, { ReactHTML } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
-import { Form, Icon, Input, Button, Carousel, notification } from 'antd';
+import { Form, Icon, Input, Button, Carousel, notification, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
 import { fetchBackgroundImage, signUp } from '../../actions';
 import { LoginState } from '../../reducers/login'
@@ -26,16 +26,18 @@ class Register extends React.Component<IProps> {
       if (!err) {
         console.log('Received values of form: ', values);
         this.props.signUp(values).then(res => {
-          console.log(res)
-          
-          try {
-            const token=res.data.token;
-            localStorage.setItem('token',token);
-          } catch (error) {
-            notification.open({
-              message: '提示',
-              description: '请关闭浏览器隐身模式'
-            });
+          if (res.payload.data.success) {
+            message.success(res.payload.data.message)
+            try {
+              const token = res.payload.data.data.token;
+              localStorage.setItem('token', token);
+            } catch (error) {
+              notification.open({
+                message: '提示',
+                description: '请关闭浏览器隐身模式'
+              });
+            }
+
           }
         })
       }

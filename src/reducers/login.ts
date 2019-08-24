@@ -1,29 +1,32 @@
 import { ActionTypes } from '../constants';
-import { LoginAction, SignUpAction } from '../actions';
-type imageData={
-  url:string;
-  copyright:string
+import { LoginAction } from '../actions';
+type imageData = {
+  url: string;
+  copyright: string
 }
 export interface LoginState {
-  name: string;
-  addressList: Array<string>;
+  name: string
+  email: string
   images: Array<imageData>
+  token: string
 }
 
 export const initialState: LoginState = {
   name: '',
-  addressList: [],
-  images: []
+  images: [],
+  email: '',
+  token: ''
 };
 
-export default function user(state: LoginState = initialState, action: LoginAction|SignUpAction): any {
+export default function user(state: LoginState = initialState, action: LoginAction): any {
+  console.log(action)
   switch (action.type) {
     case ActionTypes.FETCH_BACKGROUND_IMAGE_SUCCESS:
-      console.log(action)
       return { ...state, images: action.payload.data && action.payload.data.data };
     case ActionTypes.SIGN_UP_SUCCESS:
-      console.log(action)
-      return { ...state,  };
+      return { ...state, ...action.payload.data &&action.payload.data.data};
+    case ActionTypes.SIGN_IN_SUCCESS:
+      return { ...state, ...action.payload.data &&action.payload.data.data};
     default:
       return initialState;
   }
