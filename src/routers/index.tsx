@@ -20,7 +20,7 @@ const RouterList: Array<router> = [
   },
   {
     component: () => import("../containers/Management"),
-    path: "/submit"
+    path: "/management"
   }
 ]
 
