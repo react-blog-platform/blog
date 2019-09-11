@@ -19,8 +19,8 @@ const RouterList: Array<router> = [
     path: "/post/:postId"
   },
   {
-    component: () => import("../containers/Management"),
-    path: "/management"
+    component: () => import("../containers/Admin"),
+    path: "/admin",
   }
 ]
 
@@ -49,7 +49,7 @@ const AppRouter = () => (
         {RouterList.map(item => (
           <Route
             key={item.path}
-            exact
+            exact={item.path!='/admin'}
             path={item.path}
             component={Loadable({
               loader: item.component,

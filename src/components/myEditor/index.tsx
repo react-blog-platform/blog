@@ -8,7 +8,9 @@ import React, { Component } from "react"
 import { Modal, Button, Input } from "antd"
 // import { MarkdownEditor } from "react-markdown-editor"
 import MarkdownEditor from "@uiw/react-markdown-editor"
-interface IProps {}
+interface IProps {
+  onChange: Function
+}
 interface IState {
   markdown: string
 }
@@ -20,6 +22,8 @@ class MyEditor extends Component<IProps, IState> {
     }
   }
   updateMarkdown = (editor: any, data: any, value: any) => {
+    console.log(editor, data, value, 11111)
+    this.props.onChange(value)
     this.setState({ markdown: value })
   }
 
