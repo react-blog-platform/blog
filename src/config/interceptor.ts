@@ -5,7 +5,6 @@ export const middlewareConfig = {
     request: [{
       success: function (_:any, req:any) {
         console.log(req); //contains information about request object
-        
         try {
           const token=localStorage.getItem('token');
           req.headers['authorization']=`Bearer ${token}`;
@@ -15,7 +14,6 @@ export const middlewareConfig = {
             description: '请关闭浏览器隐身模式'
           });
         }
-
         return req
       },
     }],

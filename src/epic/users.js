@@ -1,5 +1,6 @@
 import { ajax } from 'rxjs/ajax';
 import Axios from 'axios';
+import { ofType } from 'redux-observable';
 
 // action creators
 const fetchUser = username => ({ type: FETCH_USER, payload: username });

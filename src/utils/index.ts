@@ -2,7 +2,7 @@ export const uuid = (len?: number, radix?: number) => {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
   let uuid = [];
   let i;
-  radix = radix || chars.length;
+  radix = radix || 36;
   if (len) {
     // Compact form
     for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random() * radix];

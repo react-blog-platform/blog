@@ -24,9 +24,9 @@ export default function user(state: LoginState = initialState, action: LoginActi
     case ActionTypes.FETCH_BACKGROUND_IMAGE_SUCCESS:
       return { ...state, images: action.payload.data && action.payload.data.data };
     case ActionTypes.SIGN_UP_SUCCESS:
-      return { ...state, ...action.payload.data &&action.payload.data.data};
+      return { ...state, ...action.payload.data && action.payload.data.data };
     case ActionTypes.SIGN_IN_SUCCESS:
-      return { ...state, ...action.payload.data &&action.payload.data.data};
+      return { ...state, ...action.payload.data && action.payload.data.data };
     default:
       return initialState;
   }
